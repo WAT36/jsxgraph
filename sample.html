@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script
+      type="text/javascript"
+      charset="UTF-8"
+      src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css"
+    />
+  </head>
+  <body>
+    <!-- Graph -->
+    <div id="jxgbox" class="jxgbox" style="width: 700px; height: 700px"></div>
+    <script>
+      // JSXGraph初期設定
+      const board = JXG.JSXGraph.initBoard("jxgbox", {
+        axis: true, // 軸・グリッド線を表示するかの設定（デフォルトfalse）
+        boundingbox: [-20, 15, 20, -15], // 領域の座標[左、上、右、下]
+        keepaspectratio: true, // 表示するdivボックスの縦横比に合わせる？（デフォルトfalse)
+        showNavigation: true, // ナビゲーションボタンを表示するかの設定（デフォルトfalse）
+        showCopyright: true, // コピーライト文字列を表示するかの設定（デフォルトfalse）
+        defaultAxes: {
+          // 軸のラベル設定（オプション）
+          x: {
+            name: "Distance (mi)",
+            withLabel: true,
+            label: {
+              position: "rt",
+              offset: [-5, 15],
+              anchorX: "right",
+            },
+          },
+          y: {
+            withLabel: true,
+            name: "Y",
+            label: {
+              position: "rt",
+              offset: [-20, -5],
+              anchorY: "top",
+            },
+          },
+        },
+      });
+      // 関数
+      function parabola(t) {
+        return (t * t) / 4;
+      }
+      // 関数をプロット
+      let graph = board.create("functiongraph", [parabola, -20, 20]);
+      // スライダーをプロット
+      var slider1 = board.create("slider", [
+        [1, 4],
+        [3, 4],
+        [-10, 1, 10],
+      ]);
+      // 点をプロット
+      // https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Point
+      var p1 = board.create("point", [2, -2]);
+      var p2 = board.create("point", [-2, 2], {
+        name: "P", // 点の名前
+        size: 5, // 点の大きさ
+        face: "[]", // 点の形、他にも種類あり、x+^v><'<>'など
+      });
+      // 直線をプロット。説明以下参照
+      // https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Line
+      var li1 = board.create("line", [p1, p2]); // 通過する２点を指定する
+      var li2 = board.create("line", [2, 3, -1], {
+        strokeColor: "#00ff00", // 線の色
+        strokeWidth: 4, // 線の太さ
+        dash: 2, // 点線？0:単線,1:点線,2:小さい点線,3:普通の点線?,4:長い点線
+      });
+      // 多角形（ポリゴン？）をプロット
+      var pol = board.create(
+        "polygon",
+        [
+          [-5, 0],
+          [0, -5],
+          [-5, -5],
+        ],
+        { fillColor: "yellow" }
+      );
+      // 円をプロット
+      var ci1 = board.create("circle", [p1, 1]);
+      var ci2 = board.create("circle", [[6, -2], 1], {
+        center: { visible: true },
+      });
+      // 線の交点をプロット
+      var i1 = board.create("intersection", [li1, li2]);
+      // 角度をプロット
+      var an = board.create("angle", [
+        pol.vertices[0],
+        pol.vertices[1],
+        pol.vertices[2],
+      ]);
+    </script>
+  </body>
+</html>
