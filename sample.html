@@ -66,6 +66,8 @@
         name: "P", // 点の名前
         size: 5, // 点の大きさ
         face: "[]", // 点の形、他にも種類あり、x+^v><'<>'など
+        fixed: true, // 固定するか。ドラッグして移動はできなくするか
+        highlight: false, //ホバー時に色を変えて表示させるか
       });
       // 直線をプロット。説明以下参照
       // https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Line
@@ -73,7 +75,10 @@
       var li2 = board.create("line", [2, 3, -1], {
         strokeColor: "#00ff00", // 線の色
         strokeWidth: 4, // 線の太さ
+        straightFirst: true, // 始点を突き抜けて直線にするか
+        straightLast: true, // 終点を突き抜けて直線にするか
         dash: 2, // 点線？0:単線,1:点線,2:小さい点線,3:普通の点線?,4:長い点線
+        highlight: false, //ホバー時に色を変えて表示させるか
       });
       // 多角形（ポリゴン？）をプロット
       var pol = board.create(
@@ -93,11 +98,33 @@
       // 線の交点をプロット
       var i1 = board.create("intersection", [li1, li2]);
       // 角度をプロット
-      var an = board.create("angle", [
-        pol.vertices[0],
-        pol.vertices[1],
-        pol.vertices[2],
-      ]);
+      var an = board.create(
+        "angle",
+        [pol.vertices[0], pol.vertices[1], pol.vertices[2]],
+        {
+          radius: 3, // 図示する角度の半径?
+          name: "角度A", // 角度に表示する名前
+        }
+      );
+      //曲線をプロット
+      // the cycloid curve.
+      var curve = board.create(
+        "curve",
+        [
+          function (t) {
+            return t - Math.sin(t);
+          },
+          function (t) {
+            return 1 - Math.cos(t);
+          },
+          0,
+          2 * Math.PI,
+        ],
+        {
+          strokeColor: "#ff0000", // 線の色
+          strokeWidth: 4, // 線の太さ
+        }
+      );
     </script>
   </body>
 </html>
