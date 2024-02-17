@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script
+      type="text/javascript"
+      charset="UTF-8"
+      src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css"
+    />
+  </head>
+  <body>
+    <!-- Graph -->
+    <div id="arcsin" class="jxgbox" style="width: 400px; height: 400px"></div>
+    <script>
+      const RADIUS = 1;
+      const ANGLE = Math.PI / 3;
+      // JSXGraph初期設定
+      const board = JXG.JSXGraph.initBoard("arcsin", {
+        axis: true, // 軸・グリッド線を表示するかの設定（デフォルトfalse）
+        boundingbox: [-3, 3, 3, -3], // 領域の座標[左、上、右、下]
+        showNavigation: false, // ナビゲーションボタンを表示するかの設定（デフォルトfalse）
+        showCopyright: false, // コピーライト文字列を表示するかの設定（デフォルトfalse）
+      });
+      // 関数
+      function sin(t) {
+        return Math.sin(t);
+      }
+      function arcsin(t) {
+        return Math.asin(t);
+      }
+      // 関数をプロット
+      let graph_sinall = board.create("functiongraph", [sin, -5, 5], {
+        strokeColor: "#a9a9a9", // 線の色
+        dash: 1, // 点線？0:単線,1:点線,2:小さい点線,3:普通の点線?,4:長い点線
+      });
+      let graph_sin = board.create(
+        "functiongraph",
+        [sin, -Math.PI / 2, Math.PI / 2],
+        {
+          strokeColor: "#000000", // 線の色
+        }
+      );
+      let graph_arcsin = board.create("functiongraph", [arcsin, -10, 10], {
+        strokeColor: "#ff0000", // 線の色
+        strokeWidth: 2,
+        highlight: true,
+      });
+    </script>
+  </body>
+</html>
