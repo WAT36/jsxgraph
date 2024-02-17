@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script
+      type="text/javascript"
+      charset="UTF-8"
+      src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css"
+    />
+  </head>
+  <body>
+    <!-- Graph -->
+    <div id="arctan" class="jxgbox" style="width: 400px; height: 400px"></div>
+    <script>
+      // JSXGraph初期設定
+      const board5 = JXG.JSXGraph.initBoard("arctan", {
+        axis: true, // 軸・グリッド線を表示するかの設定（デフォルトfalse）
+        boundingbox: [-5, 5, 5, -5], // 領域の座標[左、上、右、下]
+        showNavigation: false, // ナビゲーションボタンを表示するかの設定（デフォルトfalse）
+        showCopyright: false, // コピーライト文字列を表示するかの設定（デフォルトfalse）
+      });
+      // 関数
+      function tan(t) {
+        return Math.tan(t);
+      }
+      function arctan(t) {
+        return Math.atan(t);
+      }
+      // 関数をプロット
+      let graph_tan = board5.create(
+        "functiongraph",
+        [tan, -Math.PI / 2, Math.PI / 2],
+        {
+          strokeColor: "#000000", // 線の色
+        }
+      );
+      let graph_arctan = board5.create("functiongraph", [arctan, -5, 5], {
+        strokeColor: "#ff0000", // 線の色
+        strokeWidth: 2,
+        highlight: true,
+      });
+    </script>
+  </body>
+</html>
