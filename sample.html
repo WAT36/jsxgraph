@@ -94,6 +94,7 @@
       // https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Line
       var li1 = board.create("line", [p1, p2]); // 通過する２点を指定する
       var li2 = board.create("line", [2, 3, -1], {
+        // 0=ax+by+c の時[c,a,b]の値を入力することも可能?
         strokeColor: "#00ff00", // 線の色
         strokeWidth: 4, // 線の太さ
         straightFirst: true, // 始点を突き抜けて直線にするか
@@ -146,6 +147,14 @@
           strokeWidth: 4, // 線の太さ
         }
       );
+      // 凡例をプロット
+      const nameArr = ["名前A", "名前B", "名前C"];
+      const colors = ["red", "blue", "green"];
+      var legend = board.create("legend", [15, 15], {
+        labels: nameArr,
+        colors: colors,
+        strokeWidth: 5,
+      });
     </script>
   </body>
 </html>
