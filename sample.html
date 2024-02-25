@@ -55,8 +55,8 @@
       let graph = board.create("functiongraph", [parabola, -20, 20]);
       // スライダーをプロット
       var slider1 = board.create("slider", [
-        [1, 4],
-        [3, 4],
+        [10, 19],
+        [19, 19],
         [-10, 1, 10],
       ]);
       // 点をプロット
@@ -69,6 +69,27 @@
         fixed: true, // 固定するか。ドラッグして移動はできなくするか
         highlight: false, //ホバー時に色を変えて表示させるか
       });
+      // スライダーの値に応じて変化
+      var p3 = board.create(
+        "point",
+        [
+          function () {
+            return slider1.Value();
+          },
+
+          function () {
+            return -1 * slider1.Value();
+          },
+        ],
+        {
+          name: "S", // 点の名前
+          size: 5, // 点の大きさ
+          face: "x", // 点の形、他にも種類あり、x+^v><'<>'など
+          highlight: false, //ホバー時に色を変えて表示させるか
+          trace: false, // 移動したときに跡を残すか？
+          strokeColor: "#ff0000", // 線の色
+        }
+      );
       // 直線をプロット。説明以下参照
       // https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Line
       var li1 = board.create("line", [p1, p2]); // 通過する２点を指定する
