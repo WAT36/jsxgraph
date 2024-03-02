@@ -54,11 +54,15 @@
       // 関数をプロット
       let graph = board.create("functiongraph", [parabola, -20, 20]);
       // スライダーをプロット
-      var slider1 = board.create("slider", [
-        [10, 19],
-        [19, 19],
-        [-10, 1, 10],
-      ]);
+      var slider1 = board.create(
+        "slider",
+        [
+          [10, 19], //スライダーの左端を表示する位置
+          [18, 19], //スライダーの右端を表示する位置
+          [-10, 1, 10], // スライダーで調節できる値（最低値、分解能、最大値）
+        ],
+        { name: "s2", snapWidth: 1 }
+      );
       // 点をプロット
       // https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Point
       var p1 = board.create("point", [2, -2]);
