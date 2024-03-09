@@ -70,9 +70,26 @@
         name: "P", // 点の名前
         size: 5, // 点の大きさ
         face: "[]", // 点の形、他にも種類あり、x+^v><'<>'など
-        fixed: true, // 固定するか。ドラッグして移動はできなくするか
+        fixed: false, // 固定するか。ドラッグして移動はできなくするか
         highlight: false, //ホバー時に色を変えて表示させるか
       });
+      // 点p2を動かした時連動して動く点
+      var p22 = board.create(
+        "point",
+        [
+          function () {
+            return p2.X();
+          },
+          5,
+        ],
+        {
+          name: "P2", // 点の名前
+          size: 5, // 点の大きさ
+          face: "+", // 点の形、他にも種類あり、x+^v><'<>'など
+          fixed: true, // 固定するか。ドラッグして移動はできなくするか
+          highlight: false, //ホバー時に色を変えて表示させるか
+        }
+      );
       // スライダーの値に応じて変化
       var p3 = board.create(
         "point",
@@ -96,6 +113,10 @@
       );
       // 直線をプロット。説明以下参照
       // https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Line
+      var li0 = board.create("line", [
+        [0, 0],
+        [2, 4],
+      ]); // 通過する２点を指定する
       var li1 = board.create("line", [p1, p2]); // 通過する２点を指定する
       var li2 = board.create("line", [2, 3, -1], {
         // 0=ax+by+c の時[c,a,b]の値を入力することも可能?
