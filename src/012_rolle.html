@@ -27,14 +27,14 @@
         showCopyright: false, // コピーライト文字列を表示するかの設定（デフォルトfalse）
       });
       // 関数 (x-2)x(x+2)
-      function fx(t) {
+      function fxRolle(t) {
         return t ** 3 - 4 * t;
       }
       // 指定区間内で関数が指定した値を返すようなxを返す
-      function getMaxX_fx(ax) {
-        const ay = fx(ax);
+      function getMaxX_fxRolle(ax) {
+        const ay = fxRolle(ax);
         const vertexX = 2 / Math.sqrt(3);
-        const vertexY = fx(vertexX);
+        const vertexY = fxRolle(vertexX);
         if (Math.abs(ay) > Math.abs(vertexY)) {
           return ax;
         }
@@ -42,33 +42,33 @@
         diff = 10000000;
         bx = 1000;
         for (let x = 3; x >= vertexX; x -= 0.01) {
-          if (Math.abs(ay - fx(x)) < diff) {
+          if (Math.abs(ay - fxRolle(x)) < diff) {
             bx = x;
-            diff = Math.abs(ay - fx(x));
+            diff = Math.abs(ay - fxRolle(x));
           }
         }
         return bx;
       }
       // 関数をプロット
-      let graph = boardRolle.create("functiongraph", [fx, -10, 10], {
+      let graphRolle = boardRolle.create("functiongraph", [fxRolle, -10, 10], {
         highlight: false, //ホバー時に色を変えて表示させるか
         strokeColor: "#0000ff", // 線の色
       });
       // スライダーをプロット
-      var slider1 = boardRolle.create("slider", [
+      var sliderRolle = boardRolle.create("slider", [
         [-3, 3.8],
         [0, 3.8],
         [-3, 0.1, 0],
       ]);
       // 点をプロット
-      var pa1 = boardRolle.create(
+      var paRolle1 = boardRolle.create(
         "point",
         [
           function () {
-            return slider1.Value();
+            return sliderRolle.Value();
           },
           function () {
-            return fx(slider1.Value());
+            return fxRolle(sliderRolle.Value());
           },
         ],
         {
@@ -81,14 +81,14 @@
         }
       );
       // 点をプロット
-      var pb1 = boardRolle.create(
+      var pbRolle1 = boardRolle.create(
         "point",
         [
           function () {
-            return getMaxX_fx(slider1.Value());
+            return getMaxX_fxRolle(sliderRolle.Value());
           },
           function () {
-            return fx(slider1.Value());
+            return fxRolle(sliderRolle.Value());
           },
         ],
         {
@@ -101,30 +101,30 @@
         }
       );
       // 網掛け領域を表示
-      var poly = boardRolle.create(
+      var polyRolle = boardRolle.create(
         "polygon",
         [
           [
             function () {
-              return slider1.Value();
+              return sliderRolle.Value();
             },
             10,
           ],
           [
             function () {
-              return slider1.Value();
+              return sliderRolle.Value();
             },
             -10,
           ],
           [
             function () {
-              return getMaxX_fx(slider1.Value());
+              return getMaxX_fxRolle(sliderRolle.Value());
             },
             -10,
           ],
           [
             function () {
-              return getMaxX_fx(slider1.Value());
+              return getMaxX_fxRolle(sliderRolle.Value());
             },
             10,
           ],
@@ -135,12 +135,12 @@
       // 範囲内でf'(x)=0となる点を表示
       var pRolle1 = boardRolle.create(
         "point",
-        [2 / Math.sqrt(3), fx(2 / Math.sqrt(3))],
+        [2 / Math.sqrt(3), fxRolle(2 / Math.sqrt(3))],
         {
           name: ``, // 点の名前
           size: function () {
-            return slider1.Value() <= 2 / Math.sqrt(3) &&
-              2 / Math.sqrt(3) <= getMaxX_fx(slider1.Value())
+            return sliderRolle.Value() <= 2 / Math.sqrt(3) &&
+              2 / Math.sqrt(3) <= getMaxX_fxRolle(sliderRolle.Value())
               ? 3
               : 0;
           },
@@ -154,12 +154,12 @@
       );
       var pRolle2 = boardRolle.create(
         "point",
-        [-2 / Math.sqrt(3), fx(-2 / Math.sqrt(3))],
+        [-2 / Math.sqrt(3), fxRolle(-2 / Math.sqrt(3))],
         {
           name: ``, // 点の名前
           size: function () {
-            return slider1.Value() <= -2 / Math.sqrt(3) &&
-              -2 / Math.sqrt(3) <= getMaxX_fx(slider1.Value())
+            return sliderRolle.Value() <= -2 / Math.sqrt(3) &&
+              -2 / Math.sqrt(3) <= getMaxX_fxRolle(sliderRolle.Value())
               ? 3
               : 0;
           }, // 点の大きさ
@@ -173,14 +173,14 @@
       var lRolle1 = boardRolle.create(
         "line",
         [
-          [0, fx(2 / Math.sqrt(3))],
-          [1, fx(2 / Math.sqrt(3))],
+          [0, fxRolle(2 / Math.sqrt(3))],
+          [1, fxRolle(2 / Math.sqrt(3))],
         ],
         {
           strokeColor: "#ffd700", // 線の色
           strokeWidth: function () {
-            return slider1.Value() <= 2 / Math.sqrt(3) &&
-              2 / Math.sqrt(3) <= getMaxX_fx(slider1.Value())
+            return sliderRolle.Value() <= 2 / Math.sqrt(3) &&
+              2 / Math.sqrt(3) <= getMaxX_fxRolle(sliderRolle.Value())
               ? 3
               : 0;
           }, // 線の太さ
@@ -193,14 +193,14 @@
       var lRolle2 = boardRolle.create(
         "line",
         [
-          [0, fx(-2 / Math.sqrt(3))],
-          [1, fx(-2 / Math.sqrt(3))],
+          [0, fxRolle(-2 / Math.sqrt(3))],
+          [1, fxRolle(-2 / Math.sqrt(3))],
         ],
         {
           strokeColor: "#ffd700", // 線の色
           strokeWidth: function () {
-            return slider1.Value() <= -2 / Math.sqrt(3) &&
-              -2 / Math.sqrt(3) <= getMaxX_fx(slider1.Value())
+            return sliderRolle.Value() <= -2 / Math.sqrt(3) &&
+              -2 / Math.sqrt(3) <= getMaxX_fxRolle(sliderRolle.Value())
               ? 3
               : 0;
           }, // 線の太さ
