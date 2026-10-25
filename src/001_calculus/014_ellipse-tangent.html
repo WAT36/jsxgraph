@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>楕円 x^2/9 + y^2/4 = 1 と接線</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.14.0/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.14.0/distrib/jsxgraphcore.js"></script>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #fff; }
+    /* iframe の大きさに合わせて正方形で表示する（枠線込みで収まるよう border-box） */
+    #jxgbox { box-sizing: border-box; width: min(100vw, 100vh); height: min(100vw, 100vh); margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div id="jxgbox" class="jxgbox"></div>
+  <script>
+    // JSXGraph初期設定
+    const boardOval = JXG.JSXGraph.initBoard("jxgbox", {
+      axis: true, // 軸・グリッド線を表示するかの設定（デフォルトfalse）
+      boundingbox: [-4, 4, 4, -4], // 領域の座標[左、上、右、下]
+      keepaspectratio: true, // 表示するdivボックスの縦横比に合わせる？（デフォルトfalse)
+    });
+    const a = 3;
+    const b = 2;
+    // 楕円のx座標
+    function ovalX(t) {
+      return a * Math.cos(t);
+    }
+    // 楕円のy座標
+    function ovalY(t) {
+      return b * Math.sin(t);
+    }
+    // 楕円上の接線
+    function ovalSessenCalc(a, b, x1, y1, x) {
+      return -1 * ((b * b * x1) / (a * a * y1)) * (x - x1) + y1;
+    }
+    // スライダーをプロット
+    var sliderOval = boardOval.create(
+      "slider",
+      [
+        [1, 3.5],
+        [3, 3.5],
+        [0, 0.05, 2 * Math.PI],
+      ],
+      { snapWidth: 0.1 }
+    );
+    // 点をプロット
+    // スライダーの値に応じて変化
+    var pOval = boardOval.create(
+      "point",
+      [
+        function () {
+          return ovalX(sliderOval.Value());
+        },
+
+        function () {
+          return ovalY(sliderOval.Value());
+        },
+      ],
+      {
+        name: `(x1,y1)`, // 点の名前
+        size: 5, // 点の大きさ
+        face: "o", // 点の形、他にも種類あり、x+^v><'<>'など
+        highlight: false, //ホバー時に色を変えて表示させるか
+        trace: false, // 移動したときに跡を残すか？
+        strokeColor: "#ff0000", // 線の色
+      }
+    );
+    //曲線(楕円)をプロット
+    var curveOval = boardOval.create(
+      "curve",
+      [
+        function (t) {
+          return ovalX(t);
+        },
+        function (t) {
+          return ovalY(t);
+        },
+        0,
+        2 * Math.PI,
+      ],
+      {
+        strokeColor: "#ff4500", // 線の色
+        strokeWidth: 1, // 線の太さ
+      }
+    );
+    var pOval2 = boardOval.create(
+      "point",
+      [
+        function () {
+          return sliderOval.Value() === 0
+            ? ovalX(sliderOval.Value())
+            : ovalX(sliderOval.Value()) + 1;
+        },
+        function () {
+          return sliderOval.Value() === 0
+            ? 1
+            : ovalSessenCalc(
+                a,
+                b,
+                ovalX(sliderOval.Value()),
+                ovalY(sliderOval.Value()),
+                ovalX(sliderOval.Value()) + 1
+              );
+        },
+      ],
+      {
+        name: ``, // 点の名前
+        size: 0, // 点の大きさ
+        face: "o", // 点の形、他にも種類あり、x+^v><'<>'など
+        highlight: false, //ホバー時に色を変えて表示させるか
+        trace: false, // 移動したときに跡を残すか？
+        strokeColor: "#ffffff", // 色
+      }
+    );
+    var sessenOval = boardOval.create("line", [pOval, pOval2], {
+      strokeColor: "#ff0000", // 線の色
+      strokeWidth: 3, // 線の太さ
+      straightFirst: true, // 始点を突き抜けて直線にするか
+      straightLast: true, // 終点を突き抜けて直線にするか
+      dash: 0, // 点線？0:単線,1:点線,2:小さい点線,3:普通の点線?,4:長い点線
+      highlight: false, //ホバー時に色を変えて表示させるか
+    });
+  </script>
+</body>
+</html>

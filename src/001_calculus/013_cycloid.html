@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>サイクロイド（x = t - sin t, y = 1 - cos t）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.14.0/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.14.0/distrib/jsxgraphcore.js"></script>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #fff; }
+    /* iframe の大きさに合わせて正方形で表示する（枠線込みで収まるよう border-box） */
+    #jxgbox { box-sizing: border-box; width: min(100vw, 100vh); height: min(100vw, 100vh); margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div id="jxgbox" class="jxgbox"></div>
+  <script>
+    // JSXGraph初期設定
+    const boardC = JXG.JSXGraph.initBoard("jxgbox", {
+      axis: true, // 軸・グリッド線を表示するかの設定（デフォルトfalse）
+      boundingbox: [-1, 5, 8, -1], // 領域の座標[左、上、右、下]
+      keepaspectratio: true, // 表示するdivボックスの縦横比に合わせる？（デフォルトfalse)
+      showNavigation: false,
+      showCopyright: false,
+    });
+    // サイクロイドのx座標
+    function cycloidX(t) {
+      return t - Math.sin(t);
+    }
+    // サイクロイドのy座標
+    function cycloidY(t) {
+      return 1 - Math.cos(t);
+    }
+    // スライダーをプロット
+    var sliderT = boardC.create(
+      "slider",
+      [
+        [4, 4.8],
+        [7, 4.8],
+        [-3, 0.1, 10],
+      ],
+      { name: "t", snapWidth: 0.1 }
+    );
+    // 点をプロット
+    // スライダーの値に応じて変化
+    var pC = boardC.create(
+      "point",
+      [
+        function () {
+          return cycloidX(sliderT.Value());
+        },
+
+        function () {
+          return cycloidY(sliderT.Value());
+        },
+      ],
+      {
+        name: `a`, // 点の名前
+        size: 5, // 点の大きさ
+        face: "o", // 点の形、他にも種類あり、x+^v><'<>'など
+        highlight: false, //ホバー時に色を変えて表示させるか
+        trace: true, // 移動したときに跡を残すか？
+        strokeColor: "#ff0000", // 線の色
+      }
+    );
+    //曲線をプロット
+    // the cycloid curve.
+    var curve = boardC.create(
+      "curve",
+      [
+        function (t) {
+          return t - Math.sin(t);
+        },
+        function (t) {
+          return 1 - Math.cos(t);
+        },
+        -1 * Math.PI,
+        4 * Math.PI,
+      ],
+      {
+        strokeColor: "#808080", // 線の色
+        strokeWidth: 1, // 線の太さ
+      }
+    );
+    // 円をプロット
+    var ci1 = boardC.create(
+      "circle",
+      [
+        function () {
+          return [sliderT.Value(), 1];
+        },
+        1,
+      ],
+      {
+        strokeColor: "#808080", // 線の色
+        strokeWidth: 1, // 線の太さ
+        dash: 1,
+      }
+    );
+  </script>
+</body>
+</html>
