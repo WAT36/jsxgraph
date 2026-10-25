@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>y = 2^x と y = log2(x)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.14.0/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.14.0/distrib/jsxgraphcore.js"></script>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #fff; }
+    /* iframe の大きさに合わせて正方形で表示する（枠線込みで収まるよう border-box） */
+    #jxgbox { box-sizing: border-box; width: min(100vw, 100vh); height: min(100vw, 100vh); margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div id="jxgbox" class="jxgbox"></div>
+  <script>
+    const board = JXG.JSXGraph.initBoard('jxgbox', {
+      boundingbox: [-5, 5, 5, -5],
+      axis: true,
+      showNavigation: false,
+      showCopyright: false
+    });
+    // y = 2^x
+    board.create('functiongraph', [(t) => 2 ** t, -5, 5], {
+      label: '関数ラベル',
+      withLabel: true
+    });
+    // y = log2(x)
+    board.create('functiongraph', [(t) => Math.log2(t), -5, 5]);
+    // y = x（点線）
+    board.create('functiongraph', [(t) => t, -5, 5], {
+      strokeColor: '#a9a9a9',
+      dash: 1
+    });
+  </script>
+</body>
+</html>
